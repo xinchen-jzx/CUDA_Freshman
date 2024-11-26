@@ -38,31 +38,28 @@ int gettimeofday(struct timeval *tp, void *tzp)
   return (0);
 }
 #endif
-double cpuSecond()
-{
+double cpuSecond() {
   struct timeval tp;
-  gettimeofday(&tp,NULL);
-  return((double)tp.tv_sec+(double)tp.tv_usec*1e-6);
+  gettimeofday(&tp, NULL);
+  return((double)tp.tv_sec + (double)tp.tv_usec * 1e-6);
 
 }
-void initialData(float* ip,int size)
-{
+void initialData(float* ip, int size) {
   time_t t;
-  srand((unsigned )time(&t));
-  for(int i=0;i<size;i++)
-  {
-    ip[i]=(float)(rand()&0xffff)/1000.0f;
+  srand((unsigned)time(&t));
+  for(int i = 0; i < size; i++) {
+    ip[i] = (float)(rand() & 0xffff) / 1000.0f;
   }
 }
-void initialData_int(int* ip, int size)
-{
+
+void initialData_int(int* ip, int size) {
 	time_t t;
 	srand((unsigned)time(&t));
-	for (int i = 0; i<size; i++)
-	{
-		ip[i] = int(rand()&0xff);
+	for (int i = 0; i < size; i++) {
+		ip[i] = int(rand() & 0xff);
 	}
 }
+
 void printMatrix(float * C,const int nx,const int ny)
 {
   float *ic=C;
@@ -87,15 +84,13 @@ void initDevice(int devNum)
   CHECK(cudaSetDevice(dev));
 
 }
-void checkResult(float * hostRef,float * gpuRef,const int N)
-{
-  double epsilon=1.0E-8;
-  for(int i=0;i<N;i++)
-  {
-    if(abs(hostRef[i]-gpuRef[i])>epsilon)
-    {
+
+void checkResult(float * hostRef, float * gpuRef, const int N) {
+  double epsilon = 1.0E-8;
+  for(int i = 0; i < N; i++) {
+    if (abs(hostRef[i] - gpuRef[i]) > epsilon) {
       printf("Results don\'t match!\n");
-      printf("%f(hostRef[%d] )!= %f(gpuRef[%d])\n",hostRef[i],i,gpuRef[i],i);
+      printf("%f(hostRef[%d]) != %f(gpuRef[%d])\n", hostRef[i], i, gpuRef[i], i);
       return;
     }
   }
